@@ -12,6 +12,7 @@ const styles = theme => ({
     root: {
         width: '100%',
         marginBottom: theme.spacing.unit * 4,
+        marginTop: theme.spacing.unit * 8
     },
     table: {
         minWidth: 600,

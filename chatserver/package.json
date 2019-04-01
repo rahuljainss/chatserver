@@ -60,11 +60,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test"
-    }
-  },
+  
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",

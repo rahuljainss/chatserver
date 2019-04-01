@@ -81,7 +81,9 @@ class UserChat extends React.Component {
   handleClickOpen = () => {
     this.setState({ opens: true });
   };
-
+  handleClear = () => {
+    this.setState({message: ""});
+  }
 
   handleSubs = (subscribeToMore) => {
           subscribeToMore({
@@ -136,6 +138,7 @@ class UserChat extends React.Component {
                         onClick={e => {
                           e.preventDefault();
                           sendMessage({ variables: { from: sender, to: name, message: message } });
+                          this.handleClear();
                         }}
                         color="primary"
                         variant="outlined"
