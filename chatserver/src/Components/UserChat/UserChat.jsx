@@ -124,7 +124,14 @@ class UserChat extends React.Component {
               >
               <DialogTitle id="simple-dialog-title" className={classes.base2}>{`${name}`}</DialogTitle>
                 {data.chats.map(({ from, message }) => (
+                  from===sender ?
+                  <div align="end">
                   <TextField label={from} type="text" variant="outlined" className={classes.rows}value={message}/>
+                  </div>
+                  : 
+                  <div align="start">
+                  <TextField label={from} type="text" variant="outlined" className={classes.rows}value={message}/>
+                  </div>
                 ))}
                 <TextField variant="outlined" type="text" onChange={this.handleChange('message')} value={message} className={classes.base} placeholder="Enter your message"/>
                 <DialogActions>
