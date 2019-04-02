@@ -22,9 +22,9 @@ const styles = theme => ({
     backgroundColor: 'blue'
   },
   rows: {
-  margin: 8,
-  minHeight: 40,
-  maxHeight: 40
+    margin: 8,
+    minHeight: 40,
+    maxHeight: 40
   },
   buttons: {
     marginRight: '5px'
@@ -82,25 +82,26 @@ class UserChat extends React.Component {
     this.setState({ opens: true });
   };
   handleClear = () => {
-    this.setState({message: ""});
+    this.setState({ message: "" });
   }
 
   handleSubs = (subscribeToMore) => {
-          subscribeToMore({
-            document: Subs,
-            updateQuery: (prev, { subscriptionData }) => {
-              if (!subscriptionData.data) return prev;
-              const newFeedItem = subscriptionData.data;
-              if (!prev.chats.find(message => message.id === newFeedItem.messageSent.id)) {
-              return Object.assign({}, prev, {
-                  chats: [...prev.chats,newFeedItem.messageSent]
-              });}
-              else {
-                return prev;
-              }
-            }
-          })
+    subscribeToMore({
+      document: Subs,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newFeedItem = subscriptionData.data;
+        if (!prev.chats.find(message => message.id === newFeedItem.messageSent.id)) {
+          return Object.assign({}, prev, {
+            chats: [...prev.chats, newFeedItem.messageSent]
+          });
         }
+        else {
+          return prev;
+        }
+      }
+    })
+  }
 
   render() {
     const { opens, classes, sender, to, onClose } = this.props;
@@ -122,39 +123,39 @@ class UserChat extends React.Component {
                 className={classes.main}
                 onClose={this.handledClose}
               >
-              <DialogTitle id="simple-dialog-title" className={classes.base2}>{`${name}`}</DialogTitle>
+                <DialogTitle id="simple-dialog-title" className={classes.base2}>{`${name}`}</DialogTitle>
                 {data.chats.map(({ from, message }) => (
-                  from===sender ?
-                  <div align="end">
-                  <TextField label={from} type="text" variant="outlined" className={classes.rows}value={message}/>
-                  </div>
-                  : 
-                  <div align="start">
-                  <TextField label={from} type="text" variant="outlined" className={classes.rows}value={message}/>
-                  </div>
+                  from === sender ?
+                    <div align="end">
+                      <TextField label={from} type="text" variant="outlined" className={classes.rows} value={message} />
+                    </div>
+                    :
+                    <div align="start">
+                      <TextField label={from} type="text" variant="outlined" className={classes.rows} value={message} />
+                    </div>
                 ))}
-                <TextField variant="outlined" type="text" onChange={this.handleChange('message')} value={message} className={classes.base} placeholder="Enter your message"/>
+                <TextField variant="outlined" type="text" onChange={this.handleChange('message')} value={message} className={classes.base} placeholder="Enter your message" />
                 <DialogActions>
-                  
+
                   <Mutation mutation={ADD_TODO}>
-                  
+
                     {(sendMessage) => (
                       <>
-                      <Button variant="outlined" color="primary" autoFocus onClick={onClose} className={classes.buttons}>Close</Button>
-                      <Button
-                        onClick={e => {
-                          e.preventDefault();
-                          sendMessage({ variables: { from: sender, to: name, message: message } });
-                          this.handleClear();
-                        }}
-                        color="primary"
-                        variant="outlined"
-                        autoFocus
-                      >
-                        Send
+                        <Button variant="outlined" color="primary" autoFocus onClick={onClose} className={classes.buttons}>Close</Button>
+                        <Button
+                          onClick={e => {
+                            e.preventDefault();
+                            sendMessage({ variables: { from: sender, to: name, message: message } });
+                            this.handleClear();
+                          }}
+                          color="primary"
+                          variant="outlined"
+                          autoFocus
+                        >
+                          Send
                     </Button>
-                    </>)
-                  }
+                      </>)
+                    }
                   </Mutation>
                 </DialogActions>
               </Dialog>
