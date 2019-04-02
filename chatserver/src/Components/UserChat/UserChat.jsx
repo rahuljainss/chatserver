@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent"
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -131,6 +132,7 @@ class UserChat extends React.Component {
                   position="static"
                   className={classes.heads}
                 >{`${name}`}</AppBar>
+                <DialogContent>
                 {data.chats.map(({ from, message }) =>
                   from === sender ? (
                     <div align="end">
@@ -154,13 +156,14 @@ class UserChat extends React.Component {
                     </div>
                   )
                 )}
+                </DialogContent>
                 <TextField
                   variant="outlined"
                   type="text"
                   onChange={this.handleChange("message")}
                   value={message}
                   className={classes.base}
-                  placeholder="Enter your message"
+                  placeholder="Enter your message..."
                 />
                 <DialogActions>
                   <Mutation mutation={ADD_TODO}>

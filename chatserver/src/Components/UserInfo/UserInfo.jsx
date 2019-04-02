@@ -165,7 +165,7 @@ class UserInfo extends React.Component {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                User Information
+                User Login
               </Typography>
               <TextField
                 label="Name"
