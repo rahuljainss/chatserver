@@ -55,7 +55,7 @@ const Schema = yup.object({
 });
 const propTypes = {
     open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
@@ -137,8 +137,8 @@ class UserInfo extends React.Component {
             email,
         } = this.state;
 
-        const { onClose } = this.props;
-        onClose(name, email);
+        const { onSubmit } = this.props;
+        onSubmit(name, email);
         this.setState({ name: '', email: '' })
     }
 

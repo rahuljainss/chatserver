@@ -22,7 +22,7 @@ class ContainedButtons extends React.Component {
         }
     }
 
-    handleClose = (name, email) => {
+    handleSubmit = (name, email) => {
         this.setState({ open: false });
         const { history } = this.props;
         history.push(`/user/${name}`);
@@ -41,7 +41,7 @@ class ContainedButtons extends React.Component {
                     <div>
                 <UserInfo
                     open={open}
-                    onClose={this.handleClose}
+                    onSubmit={this.handleSubmit}
                 />
             </div>
             </>
