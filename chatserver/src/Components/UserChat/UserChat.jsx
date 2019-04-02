@@ -2,24 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { TextField } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+
 const styles = theme => ({
   main: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing.unit * 2
   },
   base: {
     margin: 12,
     minWidth: 500,
-    minHeight: 35,
-  },
-  base2: {
-    textAlign: 'center',
-    backgroundColor: 'blue'
+    minHeight: 35
   },
   rows: {
     margin: 8,
@@ -27,7 +24,11 @@ const styles = theme => ({
     maxHeight: 40
   },
   buttons: {
-    marginRight: '5px'
+    marginRight: "5px"
+  },
+  heads: {
+    fontSize: "30px",
+    textAlign: "center"
   }
 });
 
@@ -36,8 +37,8 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 const ADD_TODO = gql`
-  mutation sendMessage($from: String!,$to: String!,$message: String!) {
-    sendMessage(from: $from,to: $to, message: $message) {
+  mutation sendMessage($from: String!, $to: String!, $message: String!) {
+    sendMessage(from: $from, to: $to, message: $message) {
       id
       from
       to
@@ -47,71 +48,73 @@ const ADD_TODO = gql`
 `;
 const View = gql`
   query chats($from: String, $to: String) {
-    chats(from: $from, to:$to) {
+    chats(from: $from, to: $to) {
       id
       from
       to
       message
     }
-  }`;
+  }
+`;
 
 const Subs = gql`
-subscription {
-  messageSent {
-    id
-    from
-    to
-    message
+  subscription {
+    messageSent {
+      id
+      from
+      to
+      message
+    }
   }
-}`;
+`;
 
 class UserChat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      message: ""
+      message: "",
+      disabled: true
     };
   }
-  handleChange = field => (e) => {
+  handleChange = field => e => {
     this.setState({
-      [field]: e.target.value,
+      [field]: e.target.value
     });
-  }
+    (e.target.value!=="")? this.setState({disabled: false}) : this.setState({disabled: true});
+  };
   handleClickOpen = () => {
     this.setState({ opens: true });
   };
   handleClear = () => {
-    this.setState({ message: "" });
-  }
+    this.setState({ message: "", disabled: true });
+  };
 
-  handleSubs = (subscribeToMore) => {
+  handleSubs = subscribeToMore => {
     subscribeToMore({
       document: Subs,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const newFeedItem = subscriptionData.data;
-        if (!prev.chats.find(message => message.id === newFeedItem.messageSent.id)) {
+        if (
+          !prev.chats.find(message => message.id === newFeedItem.messageSent.id)
+        ) {
           return Object.assign({}, prev, {
             chats: [...prev.chats, newFeedItem.messageSent]
           });
-        }
-        else {
+        } else {
           return prev;
         }
       }
-    })
-  }
+    });
+  };
 
   render() {
     const { opens, classes, sender, to, onClose } = this.props;
-    const { message } = this.state;
-    const { name } = to ? to : '';
+    const { message, disabled } = this.state;
+    const { name } = to ? to : "";
     return (
-      <Query
-        query={View}
-        variables={{ from: sender, to: name }}
-      >
+      <Query query={View} variables={{ from: sender, to: name }}>
         {({ loading, error, subscribeToMore, data }) => {
           if (loading) return <p>Good things take time....</p>;
           if (error) return <p>Error</p>;
@@ -123,39 +126,76 @@ class UserChat extends React.Component {
                 className={classes.main}
                 onClose={this.handledClose}
               >
-                <DialogTitle id="simple-dialog-title" className={classes.base2}>{`${name}`}</DialogTitle>
-                {data.chats.map(({ from, message }) => (
-                  from === sender ?
+                <AppBar
+                  color="primary"
+                  position="static"
+                  className={classes.heads}
+                >{`${name}`}</AppBar>
+                {data.chats.map(({ from, message }) =>
+                  from === sender ? (
                     <div align="end">
-                      <TextField label={from} type="text" variant="outlined" className={classes.rows} value={message} />
+                      <TextField
+                        label={from}
+                        type="text"
+                        variant="outlined"
+                        className={classes.rows}
+                        value={message}
+                      />
                     </div>
-                    :
+                  ) : (
                     <div align="start">
-                      <TextField label={from} type="text" variant="outlined" className={classes.rows} value={message} />
+                      <TextField
+                        label={from}
+                        type="text"
+                        variant="outlined"
+                        className={classes.rows}
+                        value={message}
+                      />
                     </div>
-                ))}
-                <TextField variant="outlined" type="text" onChange={this.handleChange('message')} value={message} className={classes.base} placeholder="Enter your message" />
+                  )
+                )}
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  onChange={this.handleChange("message")}
+                  value={message}
+                  className={classes.base}
+                  placeholder="Enter your message"
+                />
                 <DialogActions>
-
                   <Mutation mutation={ADD_TODO}>
-
-                    {(sendMessage) => (
+                    {sendMessage => (
                       <>
-                        <Button variant="outlined" color="primary" autoFocus onClick={onClose} className={classes.buttons}>Close</Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          autoFocus
+                          onClick={onClose}
+                          className={classes.buttons}
+                        >
+                          Close
+                        </Button>
                         <Button
                           onClick={e => {
                             e.preventDefault();
-                            sendMessage({ variables: { from: sender, to: name, message: message } });
+                            sendMessage({
+                              variables: {
+                                from: sender,
+                                to: name,
+                                message: message
+                              }
+                            });
                             this.handleClear();
                           }}
+                          variant="contained"
                           color="primary"
-                          variant="outlined"
                           autoFocus
+                          disabled={disabled}
                         >
                           Send
-                    </Button>
-                      </>)
-                    }
+                        </Button>
+                      </>
+                    )}
                   </Mutation>
                 </DialogActions>
               </Dialog>

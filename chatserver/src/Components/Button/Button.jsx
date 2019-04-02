@@ -6,8 +6,8 @@ import { UserInfo } from '../UserInfo';
 
 const styles = theme => ({
     button: {
-        marginLeft: theme.spacing.unit*70,
-        marginTop: theme.spacing.unit*30,
+        marginLeft: theme.spacing.unit * 70,
+        marginTop: theme.spacing.unit * 30,
         maxWidth: '100px', maxHeight: '50px', minWidth: '100px', minHeight: '50px'
     },
     input: {
@@ -38,12 +38,12 @@ class ContainedButtons extends React.Component {
             <>
                 <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClickOpen}>
                     Start</Button>
-                    <div>
-                <UserInfo
-                    open={open}
-                    onSubmit={this.handleSubmit}
-                />
-            </div>
+                <div>
+                    <UserInfo
+                        open={open}
+                        onSubmit={this.handleSubmit}
+                    />
+                </div>
             </>
         );
     }
