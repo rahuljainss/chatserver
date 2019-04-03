@@ -187,7 +187,7 @@ class UserInfo extends React.Component {
                 }}
                 onChange={this.handleChange("name")}
                 onBlur={this.handleBlur("name")}
-                error={!!this.getError("name")}
+                error={this.getError("name")}
                 helperText={this.getError("name")}
               />
               <TextField
@@ -210,7 +210,7 @@ class UserInfo extends React.Component {
                 }}
                 onChange={this.handleChange("email")}
                 onBlur={this.handleBlur("email")}
-                error={!!this.getError("email")}
+                error={this.getError("email")}
                 helperText={this.getError("email")}
               />
               <Button
