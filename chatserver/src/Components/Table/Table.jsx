@@ -35,6 +35,10 @@ const styles = theme => ({
   heads: {
     fontSize: "40px",
     textAlign: "center"
+  },
+  cell: {
+    textAlign: "center",
+    fontSize: "20px"
   }
 });
 
@@ -66,8 +70,8 @@ class SampleTable extends React.Component {
                     this.handleClick(user);
                   }}
                 >
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell className={classes.cell}>{user.name}</TableCell>
+                  
                 </TableRow>
               ))}
             </TableBody>

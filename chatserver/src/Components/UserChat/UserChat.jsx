@@ -21,8 +21,9 @@ const styles = theme => ({
   },
   rows: {
     margin: 8,
-    minHeight: 40,
-    maxHeight: 40
+    minHeight: 50,
+    maxHeight: 50,
+    width: 400
   },
   buttons: {
     marginRight: "5px"
@@ -123,6 +124,7 @@ class UserChat extends React.Component {
           return (
             <div>
               <Dialog
+                fullScreen
                 open={opens}
                 className={classes.main}
                 onClose={this.handledClose}
