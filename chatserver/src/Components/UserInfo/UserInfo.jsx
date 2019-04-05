@@ -12,6 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Email from "@material-ui/icons/Email";
 import { Dialog, DialogContent } from "@material-ui/core";
 import * as yup from "yup";
+import { SnackBarConsumer } from "../SnackBar/SnackBar";
 
 const styles = theme => ({
   main: {
@@ -142,11 +143,10 @@ class UserInfo extends React.Component {
     const { touched } = this.state;
     return Object.keys(touched).length !== 0;
   };
-  handle = () => {
+  handle = (openSnackbar) => {
     const { name, email } = this.state;
-
     const { onSubmit } = this.props;
-    onSubmit(name, email);
+    onSubmit(name, email, openSnackbar);
     this.setState({ name: "", email: "" });
   };
 
@@ -213,16 +213,20 @@ class UserInfo extends React.Component {
                 error={this.getError("email")}
                 helperText={this.getError("email")}
               />
+              <SnackBarConsumer>
+              {({ openSnackbar }) => (
               <Button
                 className={classes.submit}
                 fullWidth
                 variant="contained"
                 color="primary"
                 disabled={this.hasErrors() || !this.isTouched()}
-                onClick={this.handle}
+                onClick={() => this.handle(openSnackbar)}
               >
                 START
               </Button>
+              )}
+              </SnackBarConsumer>
             </Paper>
           </main>
         </DialogContent>

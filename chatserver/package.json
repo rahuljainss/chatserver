@@ -36,6 +36,7 @@
     "ramda": "^0.25.0",
     "react": "^16.8.4",
     "react-apollo": "^2.5.2",
+    "react-chat-window": "^1.2.1",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
@@ -61,7 +62,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",

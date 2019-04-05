@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { User } from "../constants";
 import { UserInfo } from '../UserInfo';
 
 const styles = theme => ({
@@ -22,10 +23,17 @@ class ContainedButtons extends React.Component {
         }
     }
 
-    handleSubmit = (name, email) => {
+    handleSubmit = (name, email, openSnackbar) => {
         this.setState({ open: false });
+        const flag = User.filter(data => (name === data.name) && (email === data.email));
+        if(flag.length!==0) {
         const { history } = this.props;
-        history.push(`/user/${name}`);
+        history.push(`/user/${name}`, email);
+        openSnackbar('Successful Login','success');
+        }
+        else{
+            openSnackbar('User not Found','error');
+        }
     }
 
     handleClickOpen = () => {
@@ -36,7 +44,7 @@ class ContainedButtons extends React.Component {
         const { open } = this.state;
         return (
             <>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClickOpen}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={this.handleClickOpen}>
                     Start</Button>
                 <div>
                     <UserInfo

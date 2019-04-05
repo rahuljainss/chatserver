@@ -98,7 +98,7 @@ class UserChat extends React.Component {
         if (!subscriptionData.data) return prev;
         const newFeedItem = subscriptionData.data;
         if (
-          !prev.chats.find(message => message.id === newFeedItem.messageSent.id)
+          !prev.chats.find(message => (message.id === newFeedItem.messageSent.id))
         ) {
           return Object.assign({}, prev, {
             chats: [...prev.chats, newFeedItem.messageSent]
@@ -170,7 +170,7 @@ class UserChat extends React.Component {
                     {sendMessage => (
                       <>
                         <Button
-                          variant="contained"
+                          variant="outlined"
                           color="primary"
                           autoFocus
                           onClick={onClose}

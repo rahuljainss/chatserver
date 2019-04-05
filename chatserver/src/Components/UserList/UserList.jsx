@@ -24,7 +24,8 @@ class UserList extends React.Component {
 
   userTobeRender = () => {
     const name = this.props.match.params.name;
-    const friends = User.filter(data => name === data.name)[0];
+    const email = this.props.location.state;
+    const friends = User.filter(data => (name === data.name)&&(email === data.email))[0];
     if(friends) {
       const friendList = friends.friends;
       const Friend = User.filter(data => friendList.indexOf(data.id) !== -1);
