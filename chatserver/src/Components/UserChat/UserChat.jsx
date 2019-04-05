@@ -26,7 +26,8 @@ const styles = theme => ({
     width: 400
   },
   buttons: {
-    marginRight: "5px"
+    margin: "8px",
+    height: "40px",
   },
   heads: {
     fontSize: "30px",
@@ -133,7 +134,7 @@ class UserChat extends React.Component {
                   color="primary"
                   position="static"
                   className={classes.heads}
-                >{`${name}`}</AppBar>
+                >{`Connected with ${name}`}</AppBar>
                 <DialogContent>
                 {data.chats.map(({ from, message }) =>
                   from === sender ? (
@@ -196,6 +197,7 @@ class UserChat extends React.Component {
                           color="primary"
                           autoFocus
                           disabled={disabled}
+                          className={classes.buttons}
                         >
                           Send
                         </Button>
