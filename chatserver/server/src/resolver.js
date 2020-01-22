@@ -4,7 +4,7 @@ const CHAT_CHANNEL = 'CHAT_CHANNEL';
 const resolvers = {
     Query: {
         chats(root, { from, to, message }, context) {
-            const chat= chats.filter(chats => (chats.from === from && chats.to === to)||(chats.from=== to && chats.to===from));
+            const chat= chats.filter(chats => (chats.from === from && chats.to === to)||(chats.from === to && chats.to === from));
             return chat;
         }
     },

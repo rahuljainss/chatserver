@@ -93,22 +93,23 @@ class UserChat extends React.Component {
     this.setState({ message: "", disabled: true });
   };
 
-  handleSubs = subscribeToMore => {
+  handleSubs = (subscribeToMore, refetch) => {;
     subscribeToMore({
       document: Subs,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newFeedItem = subscriptionData.data;
-        if (
-          !prev.chats.find(message => (message.id === newFeedItem.messageSent.id))
-        ) {
-          return Object.assign({}, prev, {
-            chats: [...prev.chats, newFeedItem.messageSent]
-          });
-        } else {
-          return prev;
-        }
-      }
+      updateQuery: () => refetch(),
+      // updateQuery: (prev, { subscriptionData }) => {
+      //   if (!subscriptionData.data) return prev;
+      //   const newFeedItem = subscriptionData.data;
+      //   if (
+      //     !prev.chats.find(message => (message.id === newFeedItem.messageSent.id))
+      //   ) {
+      //     return Object.assign({}, prev, {
+      //       chats: [...prev.chats, newFeedItem.messageSent]
+      //     });
+      //   } else {
+      //     return prev;
+      //   }
+      // }
     });
   };
 
@@ -118,10 +119,10 @@ class UserChat extends React.Component {
     const { name } = to ? to : "";
     return (
       <Query query={View} variables={{ from: sender, to: name }}>
-        {({ loading, error, subscribeToMore, data }) => {
+        {({ loading, error, subscribeToMore, data, refetch }) => {
           if (loading) return <p>Good things take time....</p>;
           if (error) return <p>Error</p>;
-          this.handleSubs(subscribeToMore);
+          this.handleSubs(subscribeToMore, refetch);
           return (
             <div>
               <Dialog
